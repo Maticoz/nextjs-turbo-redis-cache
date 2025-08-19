@@ -75,7 +75,12 @@ describe('Next.js Turbo Redis Cache Integration', () => {
 
     console.log('Checking for existing Next.js server...');
     try {
-      const res = await fetch(NEXT_START_URL + '/api/cached-static-fetch');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const res = await fetch(NEXT_START_URL + '/api/cached-static-fetch', {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
       if (res.ok) {
         await runCommand('pkill', ['next'], NEXT_APP_DIR);
       }
