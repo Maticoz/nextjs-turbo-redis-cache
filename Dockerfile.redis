@@ -1,0 +1,9 @@
+# Use the official Redis image as base
+FROM redis:latest
+
+# Expose custom port 4444
+EXPOSE 4444
+
+# Set Redis configuration for keyspace notifications
+# This enables notifications for expired events (Ex)
+CMD ["redis-server", "--port", "4444", "--notify-keyspace-events", "Ex"]

@@ -1,13 +1,14 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { spawn } from 'child_process';
 import fetch from 'node-fetch';
-import { createClient } from 'redis';
 import { join } from 'path';
+import { createClient } from 'redis';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { CacheEntry } from '../../src/RedisStringsHandler';
 import { revalidate as next1503_revalidatedFetch_route } from './next-app-15-0-3/src/app/api/revalidated-fetch/route';
 
 // const NEXT_APP_DIR = join(__dirname, 'next-app-15-0-3');
-const NEXT_APP_DIR = join(__dirname, 'next-app-15-3-2');
+// const NEXT_APP_DIR = join(__dirname, 'next-app-15-3-2');
+const NEXT_APP_DIR = join(__dirname, 'next-app-15-4-7');
 console.log('NEXT_APP_DIR', NEXT_APP_DIR);
 const NEXT_START_PORT = 3055;
 const NEXT_START_URL = `http://localhost:${NEXT_START_PORT}`;
