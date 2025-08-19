@@ -72,12 +72,19 @@ async function waitForServer(url, timeout = 20000) {
 describe('Next.js Turbo Redis Cache Integration', () => {
   beforeAll(async () => {
     // If there was detected to run a server before (any old server which was not stopped correctly), kill it
+
+    console.log('Checking for existing Next.js server...');
     try {
       const res = await fetch(NEXT_START_URL + '/api/cached-static-fetch');
       if (res.ok) {
         await runCommand('pkill', ['next'], NEXT_APP_DIR);
       }
-    } catch {}
+      console.log(
+        'No existing Next.js server found or it was successfully killed.',
+      );
+    } catch {
+      console.log('Error occurred while checking for existing Next.js server.');
+    }
 
     // Set up environment variables
     process.env.VERCEL_ENV = 'production';
@@ -89,6 +96,16 @@ describe('Next.js Turbo Redis Cache Integration', () => {
     process.env.REDISHOST = process.env.REDISHOST || 'localhost';
     process.env.REDISPORT = process.env.REDISPORT || '6379';
     process.env.NEXT_START_PORT = String(NEXT_START_PORT);
+
+    console.log('NEXT_START_PORT is set to:', process.env.NEXT_START_PORT);
+    console.log('REDISHOST is set to:', process.env.REDISHOST);
+    console.log('REDISPORT is set to:', process.env.REDISPORT);
+    console.log('VERCEL_URL is set to:', process.env.VERCEL_URL);
+    console.log(
+      'SKIP_BUILD is set to:',
+      process.env.SKIP_BUILD,
+      process.env.SKIP_BUILD === 'true',
+    );
 
     if (process.env.SKIP_BUILD === 'true') {
       console.log('skipping build');
